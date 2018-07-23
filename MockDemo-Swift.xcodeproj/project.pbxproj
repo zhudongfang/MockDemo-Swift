@@ -96,6 +96,7 @@
 			buildConfigurationList = B25CF9FF2105F3C1007CBE7A /* Build configuration list for PBXNativeTarget "MockDemo-Swift" */;
 			buildPhases = (
 				EA2FEC66838ECAD2D2D80B49 /* [CP] Check Pods Manifest.lock */,
+				B25CFA032105F5D5007CBE7A /* [Mock] Run Script */,
 				B25CF9E92105F3C0007CBE7A /* Sources */,
 				B25CF9EA2105F3C0007CBE7A /* Frameworks */,
 				B25CF9EB2105F3C0007CBE7A /* Resources */,
@@ -177,6 +178,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MockDemo-Swift/Pods-MockDemo-Swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B25CFA032105F5D5007CBE7A /* [Mock] Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[Mock] Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"$PROJECT_DIR/${PROJECT_NAME}Tests/GeneratedMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/${PROJECT_NAME}\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"${PODS_ROOT}/Cuckoo/run\" generate --testable \"$PROJECT_NAME\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/FileName1.swift\" \\\n\"$INPUT_DIR/FileName2.swift\" \\\n\"$INPUT_DIR/FileName3.swift\"\n# ... and so forth, the last line should never end with a backslash\n\n# After running once, locate `GeneratedMocks.swift` and drag it into your Xcode test target group.";
 		};
 		EA2FEC66838ECAD2D2D80B49 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
