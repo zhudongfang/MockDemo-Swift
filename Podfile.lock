@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (4.7.2)
+  - Cuckoo (0.11.3)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - Cuckoo
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Cuckoo
+
+SPEC CHECKSUMS:
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Cuckoo: 97522dd7ac6f18adba6022bdc74aa69e82ca691a
+
+PODFILE CHECKSUM: 8e6ed3d7bcd34cc104405550ebd14526a2fc20bb
+
+COCOAPODS: 1.5.3
