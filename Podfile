@@ -7,6 +7,6 @@ target 'MockDemo-Swift' do
 
   # Pods for MockDemo-Swift
   pod 'Alamofire', '~> 4.7'
-  pod "Cuckoo"
+  #pod "Cuckoo"
 
 end

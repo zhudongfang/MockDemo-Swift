@@ -12,6 +12,8 @@
 		B25CF9F62105F3C0007CBE7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B25CF9F42105F3C0007CBE7A /* Main.storyboard */; };
 		B25CF9F82105F3C1007CBE7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B25CF9F72105F3C1007CBE7A /* Assets.xcassets */; };
 		B25CF9FB2105F3C1007CBE7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B25CF9F92105F3C1007CBE7A /* LaunchScreen.storyboard */; };
+		B25CFA052105F654007CBE7A /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25CFA042105F654007CBE7A /* ApiClient.swift */; };
+		B25CFA072105F711007CBE7A /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25CFA062105F711007CBE7A /* Person.swift */; };
 		DF9F2C55E9BD5ED547C23E70 /* Pods_MockDemo_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26E9A182F6EEA7F127A75EF /* Pods_MockDemo_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +26,8 @@
 		B25CF9F72105F3C1007CBE7A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B25CF9FA2105F3C1007CBE7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B25CF9FC2105F3C1007CBE7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B25CFA042105F654007CBE7A /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		B25CFA062105F711007CBE7A /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		EA0FE9239D3DBE9546FE687B /* Pods-MockDemo-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockDemo-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MockDemo-Swift/Pods-MockDemo-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		F26E9A182F6EEA7F127A75EF /* Pods_MockDemo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockDemo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -80,6 +84,8 @@
 			children = (
 				B25CF9F02105F3C0007CBE7A /* AppDelegate.swift */,
 				B25CF9F22105F3C0007CBE7A /* ViewController.swift */,
+				B25CFA062105F711007CBE7A /* Person.swift */,
+				B25CFA042105F654007CBE7A /* ApiClient.swift */,
 				B25CF9F42105F3C0007CBE7A /* Main.storyboard */,
 				B25CF9F72105F3C1007CBE7A /* Assets.xcassets */,
 				B25CF9F92105F3C1007CBE7A /* LaunchScreen.storyboard */,
@@ -167,12 +173,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MockDemo-Swift/Pods-MockDemo-Swift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Cuckoo/Cuckoo.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cuckoo.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -191,7 +195,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"$PROJECT_DIR/${PROJECT_NAME}Tests/GeneratedMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/${PROJECT_NAME}\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"${PODS_ROOT}/Cuckoo/run\" generate --testable \"$PROJECT_NAME\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/FileName1.swift\" \\\n\"$INPUT_DIR/FileName2.swift\" \\\n\"$INPUT_DIR/FileName3.swift\"\n# ... and so forth, the last line should never end with a backslash\n\n# After running once, locate `GeneratedMocks.swift` and drag it into your Xcode test target group.";
+			shellScript = "# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\n#OUTPUT_FILE=\"$PROJECT_DIR/${PROJECT_NAME}Tests/GeneratedMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/${PROJECT_NAME}\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n#\"${PODS_ROOT}/Cuckoo/run\" generate --testable \"$PROJECT_NAME\" \\\n#--output \"${OUTPUT_FILE}\" \\\n#\"$INPUT_DIR/FileName1.swift\" \\\n#\"$INPUT_DIR/FileName2.swift\" \\\n#\"$INPUT_DIR/FileName3.swift\"\n# ... and so forth, the last line should never end with a backslash\n\n# After running once, locate `GeneratedMocks.swift` and drag it into your Xcode test target group.";
 		};
 		EA2FEC66838ECAD2D2D80B49 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -219,6 +223,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B25CF9F32105F3C0007CBE7A /* ViewController.swift in Sources */,
+				B25CFA052105F654007CBE7A /* ApiClient.swift in Sources */,
+				B25CFA072105F711007CBE7A /* Person.swift in Sources */,
 				B25CF9F12105F3C0007CBE7A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
