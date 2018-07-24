@@ -7,20 +7,16 @@
 //
 
 import UIKit
-import OHHTTPStubs
-
+import GYHttpMock
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        stub(condition: { (req) -> Bool in
-            return isAbsoluteURLString("https://httpbin.org/get")(req)
-        }) { (req) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(error: NSError(domain: "xx", code: 1001, userInfo: nil))
-        }
-        
+        // mockRequest("GET", "https://httpbin.org/get").andReturn(200)?.withBody("{\"name\": \"pgone\"}")
+        mockRequest("GET", "https://httpbin.org/get").andFailWithError(NSError(domain: "", code: 1010, userInfo: nil))
+
         ApiClient.shared.getPerson()
     }
 }
