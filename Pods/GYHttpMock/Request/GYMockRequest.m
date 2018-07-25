@@ -66,7 +66,8 @@
 
 - (BOOL)matchesURL:(id<GYHTTPRequest>)request {
     GYMatcher *matcher = [[GYMatcher alloc] initWithString:[request.url absoluteString]];
-    return [self.urlMatcher match:matcher];
+    BOOL result = [self.urlMatcher match:matcher];
+    return result;
 }
 
 - (BOOL)matchesHeaders:(id<GYHTTPRequest>)request {
@@ -84,6 +85,7 @@
         return YES;
     }
     NSString *reqBodyString = [[NSString alloc] initWithData:reqBody encoding:NSUTF8StringEncoding];
+    reqBodyString = [reqBodyString stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSAssert(reqBodyString, @"request body is nil");
     
     GYMatcher *matcher = [[GYMatcher alloc] initWithString:reqBodyString];

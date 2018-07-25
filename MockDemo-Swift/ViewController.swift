@@ -11,13 +11,93 @@ import GYHttpMock
 
 class ViewController: UIViewController {
 
+    var testError = false
+    var testParams = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // mockRequest("GET", "https://httpbin.org/get").andReturn(200)?.withBody("{\"name\": \"pgone\"}")
-        mockRequest("GET", "https://httpbin.org/get").andFailWithError(NSError(domain: "", code: 1010, userInfo: nil))
+        addMocks()
+    }
+    
+    func addMocks() {
+        let error = NSError(domain: "cmcm.com", code: -1, userInfo: nil);
+        let params = "{\"name\"=\"ming\"}"
+        let response = "{\"error\": 0, \"data\": {}}"
+        
+        if (!testError) {
+            // Get
+            mockRequest("GET", HttpGetUrl).andReturn(200)?.withBody(response)
+            mockRequest("GET", HttpsGetUrl).andReturn(200)?.withBody("get.json")
+            // Post
+            mockRequest("POST", HttpPostUrl).andReturn(200)?.withBody("post.json")
+            mockRequest("POST", HttpsPostUrl).withBody(params)?.andReturn(200)?.withBody("post.json")
+        } else {
+            // Get
+            mockRequest("GET", HttpGetUrl).andFailWithError(error)
+            mockRequest("GET", HttpsGetUrl).withBody(params)?.andFailWithError(error)
+            // Post
+            mockRequest("POST", HttpPostUrl).andFailWithError(error)
+            mockRequest("POST", HttpsPostUrl).withBody(params)?.andFailWithError(error)
+        }
+        
+        // Get 没有 withBody，只能匹配URL，可以修改库做到匹配queryItems
+    }
+    
+    @IBAction func handleMockSwitchValueChange(_ sender: UISwitch) {
+        if (sender.isOn) {
+            addMocks()
+            GYHttpMock.sharedInstance().start()
+        } else {
+            GYHttpMock.sharedInstance().stop()
+        }
+    }
+    
+    @IBAction func handleParamsSwitchValueChange(_ sender: UISwitch) {
+        testParams = sender.isOn
+    }
+    
+    @IBAction func handleErrorSwitchValueChange(_ sender: UISwitch) {
+        testError = sender.isOn
+        
+        GYHttpMock.sharedInstance().stop();
+        addMocks()
+    }
+    
+    // Http
+    
+    @IBAction func testHttpGet(_ sender: Any) {
+        if (testParams) {
+            ApiClient.shared.testHttpGet(["name": "ming"])
+        } else {
+            ApiClient.shared.testHttpGet(nil)
+        }
+    }
+    
+    @IBAction func testHttpPost(_ sender: Any) {
+        if (testParams) {
+            ApiClient.shared.testHttpPost(["name": "ming"])
+        } else {
+            ApiClient.shared.testHttpPost(nil)
+        }
+    }
 
-        ApiClient.shared.getPerson()
+    // Https
+    
+    @IBAction func testHttpsGet(_ sender: Any) {
+        if (testParams) {
+            ApiClient.shared.testHttpsGet(["name": "ming"])
+        } else {
+            ApiClient.shared.testHttpsGet(nil)
+        }
+    }
+    
+    @IBAction func testHttpsPost(_ sender: Any) {
+        if (testParams) {
+            ApiClient.shared.testHttpsPost(["name": "ming"])
+        } else {
+            ApiClient.shared.testHttpsPost(nil)
+        }
     }
 }
 

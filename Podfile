@@ -9,6 +9,6 @@ target 'MockDemo-Swift' do
   pod 'Alamofire', '~> 4.7'
   # pod "Cuckoo"
   # pod 'OHHTTPStubs/Swift'
-  pod 'GYHttpMock'
+  pod 'GYHttpMock', :git=>'https://github.com/zhudongfang/GYHttpMock.git'
 
 end

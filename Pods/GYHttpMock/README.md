@@ -1,5 +1,5 @@
 # GYHttpMock
-Library for replacing part/all HTTP response based on [Nocilla](https://github.com/luisobo/Nocilla).
+Library for replacing part/all HTTP response based on Nocilla.
 
 ## Features
 * Support NSURLConnection, NSURLSession.
@@ -33,8 +33,7 @@ mockRequest(@"GET", @"http://www.google.com");
 
 #### Mock requests with regular expressions
 ```objc
-mockRequest(@"GET", @"(.*?)google.com(.*?)".regex).
-withBody(@"{\"name\":\"abc\"}".regex);
+mockRequest(@"GET", @"(.*?)google.com(.*?)".regex);
 ```
 
 
@@ -76,6 +75,12 @@ isUpdatePartResponseBody(YES).
 andReturn(200).
 withHeaders(@{@"Content-Type": @"application/json"}).
 withBody(@"google.json");
+```
+#### Add log
+```objc
+[GYHttpMock sharedInstance].logBlock = ^(NSString *logStr) {
+    NSLOG(@"%@", logStr);
+};
 ```
 
 ## License

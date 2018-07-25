@@ -44,6 +44,9 @@
             NSString *name = [body substringToIndex:body.length-5];
             NSBundle *bundle = [NSBundle bundleForClass:[self class]];
             NSString *path = [bundle pathForResource:name ofType:@"json"];
+            if (!path) {
+                path = [[NSBundle mainBundle] pathForResource:name ofType:@"json"];
+            }
             NSAssert(path.length, @"file:%@ not exist",body);
             bodyString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
         }
@@ -51,8 +54,8 @@
         self.response.body = [bodyString data];
         
         //校验
-        NSError *__autoreleasing *error = nil;
-        id json = [NSJSONSerialization JSONObjectWithData:self.response.body options:NSJSONReadingMutableContainers error:error];
+        NSError *error = nil;
+        id json = [NSJSONSerialization JSONObjectWithData:self.response.body options:NSJSONReadingMutableContainers error:&error];
         if (!json) {
             NSAssert(json, @"response string is invaild json");
         }

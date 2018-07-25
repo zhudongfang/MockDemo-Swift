@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 ## GYHttpMock
 
-Copyright (c) 2015 hypoyao
+Copyright (c) 2017 hypoyao
 MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining
