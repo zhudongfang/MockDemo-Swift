@@ -13,7 +13,22 @@ class ViewController: UIViewController {
 
     var testError = false
     var testParams = false
+    
+    let reqParams: [String : Any] = ["name": "ming"]
+    let mockParams = "name=ming"
 
+    // 参数大于1, 拼接顺序不一样导致匹配失败 mock fail
+    // let reqParams: [String : Any] = ["name": "ming", "age": 27]
+    // let mockParams = "name=ming&age=27"
+    
+    let mockError = NSError(domain: "cmcm.com", code: -1, userInfo: nil);
+    let mockResponse = "{\"error\": 0, \"data\": {}}"
+
+    // 改进：
+    // GET  match fullurl， 可以改为 query item
+    // POST params_count>1 时顺序出错导致匹配失败。name=ming&age=27 vs age=27&name=ming，同样会出现在其他方法中
+    // json_file 默认取得失framework那个bundle的，我们一般放到main bundle中
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,27 +36,28 @@ class ViewController: UIViewController {
     }
     
     func addMocks() {
-        let error = NSError(domain: "cmcm.com", code: -1, userInfo: nil);
-        let params = "{\"name\"=\"ming\"}"
-        let response = "{\"error\": 0, \"data\": {}}"
+
+        // 示例：
+        // http/https
+        // get/post
+        // params？ multi params
+        // jsonstring/jsonfile
         
         if (!testError) {
-            // Get
-            mockRequest("GET", HttpGetUrl).andReturn(200)?.withBody(response)
+            // Http
+            mockRequest("GET", HttpGetUrl).andReturn(200)?.withBody(mockResponse)
+            mockRequest("POST", HttpPostUrl).withBody(mockParams)?.andReturn(200)?.withBody("post.json")
+            // Https
             mockRequest("GET", HttpsGetUrl).andReturn(200)?.withBody("get.json")
-            // Post
-            mockRequest("POST", HttpPostUrl).andReturn(200)?.withBody("post.json")
-            mockRequest("POST", HttpsPostUrl).withBody(params)?.andReturn(200)?.withBody("post.json")
+            mockRequest("POST", HttpsPostUrl).withBody(mockParams)?.andReturn(200)?.withBody("post.json")
         } else {
-            // Get
-            mockRequest("GET", HttpGetUrl).andFailWithError(error)
-            mockRequest("GET", HttpsGetUrl).withBody(params)?.andFailWithError(error)
-            // Post
-            mockRequest("POST", HttpPostUrl).andFailWithError(error)
-            mockRequest("POST", HttpsPostUrl).withBody(params)?.andFailWithError(error)
+            // Http
+            mockRequest("GET", HttpGetUrl).andFailWithError(mockError)
+            mockRequest("POST", HttpPostUrl).andFailWithError(mockError)
+            // Https
+            mockRequest("GET", HttpsGetUrl).withBody(mockParams)?.andFailWithError(mockError)
+            mockRequest("POST", HttpsPostUrl).withBody(mockParams)?.andFailWithError(mockError)
         }
-        
-        // Get 没有 withBody，只能匹配URL，可以修改库做到匹配queryItems
     }
     
     @IBAction func handleMockSwitchValueChange(_ sender: UISwitch) {
@@ -68,7 +84,7 @@ class ViewController: UIViewController {
     
     @IBAction func testHttpGet(_ sender: Any) {
         if (testParams) {
-            ApiClient.shared.testHttpGet(["name": "ming"])
+            ApiClient.shared.testHttpGet(reqParams)
         } else {
             ApiClient.shared.testHttpGet(nil)
         }
@@ -76,7 +92,7 @@ class ViewController: UIViewController {
     
     @IBAction func testHttpPost(_ sender: Any) {
         if (testParams) {
-            ApiClient.shared.testHttpPost(["name": "ming"])
+            ApiClient.shared.testHttpPost(reqParams)
         } else {
             ApiClient.shared.testHttpPost(nil)
         }
@@ -86,7 +102,7 @@ class ViewController: UIViewController {
     
     @IBAction func testHttpsGet(_ sender: Any) {
         if (testParams) {
-            ApiClient.shared.testHttpsGet(["name": "ming"])
+            ApiClient.shared.testHttpsGet(reqParams)
         } else {
             ApiClient.shared.testHttpsGet(nil)
         }
@@ -94,7 +110,7 @@ class ViewController: UIViewController {
     
     @IBAction func testHttpsPost(_ sender: Any) {
         if (testParams) {
-            ApiClient.shared.testHttpsPost(["name": "ming"])
+            ApiClient.shared.testHttpsPost(reqParams)
         } else {
             ApiClient.shared.testHttpsPost(nil)
         }
