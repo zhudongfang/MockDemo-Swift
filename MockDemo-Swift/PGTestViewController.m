@@ -16,7 +16,7 @@
     [super viewDidLoad];
     
     mockRequest(@"GET", @"http://httpbin.org/get").
-    withBody(@"{\"ts\": \"010101\"}").
+    withBody(@"name=ming").
     andReturn(200).
     withBody(@"get.json");
     

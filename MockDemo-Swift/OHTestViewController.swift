@@ -14,7 +14,7 @@ class OHTestViewController: UIViewController {
     var testError = false
     var testParams = false
     
-    let mockParams: [String : Any] = ["name": "ming"]
+    let mockParams: [String : String] = ["name": "ming"]
     var mockResponse: OHHTTPStubsResponse {
         get {
             return OHHTTPStubsResponse(jsonObject: ["data": "123"] , statusCode: 200, headers: nil)
@@ -42,30 +42,17 @@ class OHTestViewController: UIViewController {
         // params？ multi params
         // jsonstring/jsonfile
         
-//        let s = "name=ming"
-//        let paires = s.split(separator: "&")
-//        var httpBody = Dictionary()
-//        for kv in paires {
-//            let parts = kv.split(separator: "=")
-//            if parts.count != 2 {
-//                continue
-//            }
-//            
-//            httpBody[parts[0]] = parts[1]
-//        }
-        
-
         if (!testError) {
             // Http
-            stub(condition: { (req) -> Bool in
-                return isMethodGET()(req) && isAbsoluteURLString(HttpGetUrl)(req)
-            }) { (req) -> OHHTTPStubsResponse in
+            stub(condition: isMethodGET() && isHost("httpbin.org") && pathMatches("get") && containsQueryParams(self.mockParams)) {
+                (req) -> OHHTTPStubsResponse in
                 return self.mockResponse
             }
-            stub(condition: { (req) -> Bool in
-                return isMethodPOST()(req) && isAbsoluteURLString(HttpPostUrl)(req) && hasJsonBody(self.mockParams)(req)
-            }) { (req) -> OHHTTPStubsResponse in
-                return OHHTTPStubsResponse(jsonObject: ["data": "123"] , statusCode: 200, headers: nil)
+            
+            stub(condition: isMethodPOST() && isAbsoluteURLString(HttpPostUrl) && hasJsonBody(self.mockParams)) {
+                (req) -> OHHTTPStubsResponse in
+                let path = Bundle.main.path(forResource: "get", ofType: "json")
+                return OHHTTPStubsResponse(fileAtPath: path!, statusCode: 200, headers: nil)
             }
             
             // Https
@@ -74,6 +61,7 @@ class OHTestViewController: UIViewController {
             }) { (req) -> OHHTTPStubsResponse in
                 return self.mockResponse
             }
+            
             stub(condition: { (req) -> Bool in
                 return isMethodPOST()(req) && isScheme("https")(req) && isAbsoluteURLString(HttpsPostUrl)(req) && hasJsonBody(self.mockParams)(req)
             }) { (req) -> OHHTTPStubsResponse in
@@ -87,6 +75,7 @@ class OHTestViewController: UIViewController {
             }) { (req) -> OHHTTPStubsResponse in
                 return self.mockError
             }
+            
             stub(condition: { (req) -> Bool in
                 return isMethodPOST()(req) && isAbsoluteURLString(HttpPostUrl)(req) && hasJsonBody(self.mockParams)(req)
             }) { (req) -> OHHTTPStubsResponse in
@@ -99,6 +88,7 @@ class OHTestViewController: UIViewController {
             }) { (req) -> OHHTTPStubsResponse in
                 return self.mockError
             }
+            
             stub(condition: { (req) -> Bool in
                 return isMethodPOST()(req) && isScheme("https")(req) && isAbsoluteURLString(HttpsPostUrl)(req) && hasJsonBody(self.mockParams)(req)
             }) { (req) -> OHHTTPStubsResponse in

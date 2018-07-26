@@ -7,8 +7,7 @@
 //
 
 import UIKit
-//import GYHttpMock
-import OHHTTPStubs
+import GYHttpMock
 
 class GYTestViewController: UIViewController {
 
